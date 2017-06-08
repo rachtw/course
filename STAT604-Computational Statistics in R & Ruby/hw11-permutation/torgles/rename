@@ -1,0 +1,14 @@
+#!/usr/bin/env ruby
+
+Dir.mkdir("globins-renamed")
+Dir.chdir("globins")
+files = `ls -1`.split("\n")
+files.each do |x|
+  raise "Unrecognized file" if x !~ /tor-pos_(\d+).png/
+  position = sprintf("%03d",$1)
+  newfile = "tor-pos_#{position}.png"
+  `cp #{x} ../globins-renamed/#{newfile}`
+end
+
+#<tor-pos_89.png>
+

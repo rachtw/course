@@ -1,0 +1,83 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Homework 6</title></head><body>
+STAT 604: Intro. to Statistical Computing<br>
+Prof. David B. Dahl<br>
+<h1>Homework 6</h1>
+
+<p>
+This homework is designed to give you experience with:
+</p><ul>
+<li>Computing $p$-values by sampling from a null model</li>
+<li>Moving from an abstract idea to an actual implementation on the computer</li>
+</ul>
+
+
+<p>
+Read about the Mann-Whitney test <a href="http://en.wikipedia.org/wiki/Mann-Whitney_U_test">here</a> and <a href="http://learn.lboro.ac.uk/sci/ma/mlsc/documents/Mannwhitney.pdf">here</a>.  We are interested in testing the null hypothesis
+that the distributions of the two populations are equal versus the two
+sided alternative that one populations is shifted to the left or right of the
+other.
+</p>
+
+<p>
+Write a script in R which defines the following function:
+</p>
+
+<tt>
+mann.whitney &lt;- function(sample1,sample2,nreps=10000) {<br>
+&nbsp;&nbsp; # Your code goes here<br>
+}
+</tt>
+
+<p>
+The first two arguments to the function provide the sample data from
+the two
+populations. The third argument indicates the number of draws to obtain
+under
+the null hypothesis. The more draws under the null, the more precise
+the
+Monte Carlo $p$-value estimates will be.
+The function should return a vector of length 3, where the first
+element is the test statistic U, the second element in the $p$-value
+associated with the observed test statistic based on sampling from the
+null model, and the third element is the approximate $p$-value obtained
+by the normal approximation. Although R may implement
+the Mann-Whitney test, do not use this functionality in your function.
+</p>
+
+<p>
+In the case where the data has ties, care must be taking in dealing with the
+ranks and the standard error in the normal approximation is more complicated.
+Instead of complicating matters, we will simply assume for this assignment
+that the data passed to your function does not have any ties.
+</p>
+
+<p>
+Use your function on the following data:
+</p>
+
+<tt>
+sample1 &lt;- c(3.43, 3.45, 2.5, 3.86, 1.52)<br>
+sample2 &lt;- c(0.86, 4.05, 3.18, 3.84, 2.52, 3.99, 2.08, 4.26, 2.57, 3.54)<br>
+</tt>
+
+<p>
+Also, use your function on this data:
+</p>
+
+<tt>sample1 &lt;- c(2.93, 2.63, 3.36, 2.41, 2.35, 3.09, 3.58, 3.02,
+1.24, 2.64, 2.95, 3.57, 3.78, 2.34, 2.9, 4.05, 3.52, 3.77, 4.1, 3.81,
+2.43, 2.58, 2.97, 2.3, 3.72)<br>
+sample2 &lt;- c(3.17, 5.24, 4.17, 2.83, 3.28, 4.32, 2.47, 2.03, 3.51,
+4.33, 2.06, 4.68, 3.83, 1.06, 3.12, 3.53, 2.52, 3.86, 3.2, 3.96, 5.02,
+4.2, 3.9, 4.61, 4)
+</tt>
+
+<p>
+Notice that the normal approximate improves as the sample sizes get larger.
+</p>
+
+<p>Print out and staple the source and output files.  In addition, e-mail the files to hw06@dahlgrapevine.org.</p>
+
+
+</body></html>

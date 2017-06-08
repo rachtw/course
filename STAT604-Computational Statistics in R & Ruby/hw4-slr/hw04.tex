@@ -1,0 +1,96 @@
+\documentclass[12pt]{article}
+
+\usepackage[margin=1.0in]{geometry}
+\usepackage{color}
+\usepackage{times}
+\usepackage{graphics}
+
+\pagestyle{empty}
+\setlength{\parindent}{0in}
+\setlength{\parskip}{2ex}
+\renewcommand{\baselinestretch}{1.0}
+
+\begin{document}
+STAT 604: \hfill {Mu-Fen Hsieh}\\
+Intro.\ to Statistical Computing \hfill {Sep. 14, 2006}
+
+\begin{center}
+\Large HW 4\\
+\end{center}
+
+This homework consists of writing a function to perform a simulation study regarding simple linear regression.
+
+Recall that the simple linear regression model (in LaTeX's math notation) is:
+
+$y_i = \beta_0 + \beta_1 x_i + \epsilon_i$ for $i=1,\ldots,n$,
+
+where the error terms $\epsilon_1,\ldots,\epsilon_n$ are mean zero, independent, and identically distributed random variables.
+
+Let $\hat{\beta}_1$ denote the parameter estimate of $\beta_1$. The bias $\hat{\beta}_1$ in estimating $\beta_1$ is defined as 
+the expected value of $\hat{\beta}_1$ minus $\beta_1$. A $100(1-\alpha1)$\% confidence interval for the slope $\beta_1$ (based 
+on normally distributed errors) is obtained as $\hat{\beta}_1 +/- t_{\alpha1/2,df} \hat{\sigma}_{\hat{\beta}_1}$, where $df$ is 
+the residual (a.k.a., error) degrees of freedom, $\hat{\sigma}_{\hat{\beta}_1}$ is the standard error of the slope estimate, 
+and $t_{\alpha1/2,df}$ is the $\alpha1/2$ upper quantile of the t-distribution with $df$ degrees of freedom. The coverage of a 
+confidence interval estimator is the long-run relative frequency that the interval contains the true value. 
+
+The regression coefficients $\beta_0$ and $\beta_1$ can be estimated using the method of least-squares. In R, if \texttt{x} and \texttt{y} are numeric vectors of the same length, the least-squares parameter estimates, standard errors, degrees of freedom, etc. are obtained using:
+\begin{verbatim}fm <- lm( y ~ x )
+fm
+summary(fm)
+\end{verbatim}
+
+While theory provides results on the bias and coverage in simple linear regression models, the goal for this assignment to empirically investigate:
+\begin{itemize}
+\item The bias in estimating the slope, and
+\item The coverage of the $100(1-\alpha1)$\% confidence interval estimator for the slope based on the usual normality assumption. 
+\end{itemize}
+
+Make a text file named exactly ``slope.R'' whose content is the following:
+\begin{verbatim}## You should not modify the function definition.
+## Also, you should not add any code before or after this function.
+slope.simulation <- function(regressor,intercept,slope,
+                      error.distribution=c("normal","chisq")[1],
+                      nreps,alpha1,alpha2) {
+  ## Your code goes here
+}
+\end{verbatim}
+
+For your convenience, you can download this skeleton file \texttt{"slope.R"}. In the body of the function, replace the comment with your code.
+
+The arguments to the function are:
+\begin{itemize}
+\item \texttt{regressor}: Independent variable passed as a numeric vector of arbitrary length.
+\item \texttt{intercept}: True intercept passed as a numeric vector of length one.
+\item \texttt{slope}: True slope passed as a numeric vector of length one.
+\item \texttt{error.distribution}: Distribution of the error term passed as a character vector of length one, equaling either:
+\begin{itemize}
+\item \texttt{"normal"}: Error term is standard normally distributed.
+\item \texttt{"chisq"}: Error term has a chi-squared distribution with 0.5 degrees of freedom and shifted to the left by 0.5 (so that the mean of the error term is zero).
+\end{itemize}
+\item \texttt{nreps}: Number of replications.
+\item \texttt{alpha1}: Equals 1.0 minus the confidence coefficient for the confidence interval estimator of the slope. For example, for 95\% confidence intervals on the slope, \texttt{alpha1 = 0.05}.
+\item \texttt{alpha2}: Equals 1.0 minus the confidence coefficient for the confidence intervals of the bias and coverage probabilities. For example, for a 90\% confidence interval on the bias, \texttt{alpha2 = 0.10}.
+\end{itemize}
+
+For each iteration of the \texttt{nreps} iterations of the simulation, randomly generate the response (i.e., dependent) vector using the supplied intercept, slope, regressor, and error term distribution. Fit the simple linear regression model and compute a $100(1-\alpha1)$\% confidence interval on the slope parameter. Record whether it contains the true slope. Also, record the difference between the slope estimate and its true value.
+
+The proportion of times that the confidence interval contains the true slope is a point estimate of the its coverage. Theory says that the coverage should be $1-\alpha1$ when the error distribution is normal. In addition to providing a point estimate of the coverage, you will provide a $100(1-\alpha2)$\% confidence interval on the coverage. (Use the normal approximation to the binomial, which is justified by the Central Limit Theorem since \texttt{nreps} is large.)
+
+The average difference between the slope estimate and its true value is a point estimate of the bias. In addition to providing a point estimate of the bias, you will provide a $100(1-\alpha2)$\% confidence interval on the bias. (Again, the Central Limit Theorem is applicable.)
+
+Your function should return a numeric vector of length six whose elements, in order, are:
+\begin{enumerate}
+\item A point estimate of the bias in estimating the slope
+\item The lower bound of a $100(1-\alpha2)$\% confidence interval for the bias
+\item The upper bound of a $100(1-\alpha2)$\% confidence interval for the bias
+\item A point estimate of the coverage of the $100(1-\alpha1)$\% confidence interval estimator of the slope
+\item The lower bound of a $100(1-\alpha2)$\% confidence interval for the coverage
+\item The upper bound of a $100(1-\alpha2)$\% confidence interval for the coverage
+\end{enumerate}
+
+In writing your code, you will likely find the following R functions helpful: \texttt{lm, qt, summary, str}. If \texttt{fm} is an object of class \texttt{lm, str(fm)} and \texttt{str(summary(fm))} will reveal how you can pick out parameter estimates, degrees of freedom, standard errors, etc.
+
+To help you test your code and see the effects of various parameter values, you may want to download \texttt{"verify.R"}. Once you have your code running, see if the results make sense. Experiment with different parameter settings. Think about the following questions: Is the estimator of the slope biased under either error terms? Does the confidence interval estimator have the right coverage under the normally distributed error terms? How about the chi-squared distributed error terms? If the coverage is off, under what situation is it noticeable. Further, when does this coverage problem go away? What phenomenon makes it go away?
+
+Submit your \texttt{"slope.R"} file to hw04@dahlgrapevine.org and bring a hard copy to class.
+\end{document}

@@ -1,0 +1,1294 @@
+文法
+
+    0 $accept: statements $end
+
+    1 statements: statement NEWLINE
+    2           | statements statement NEWLINE
+
+    3 statement: create_table_statement
+    4          | drop_table_statement
+    5          | select_statement
+    6          | insert_statement
+    7          | delete_statement
+
+    8 create_table_statement: CREATE TABLE NAME OPAREN attribute_type_list EPAREN
+
+    9 attribute_type_list: NAME data_type
+   10                    | NAME data_type COLON attribute_type_list
+
+   11 data_type: INTTOK
+   12          | STR20TOK
+
+   13 drop_table_statement: DROP TABLE NAME
+
+   14 select_statement: SELECT select_list FROM table_list
+   15                 | SELECT DISTINCT select_list FROM table_list
+   16                 | SELECT select_list FROM table_list WHERE search_condition
+   17                 | SELECT DISTINCT select_list FROM table_list WHERE search_condition
+   18                 | SELECT select_list FROM table_list ORDERBY column_name
+   19                 | SELECT DISTINCT select_list FROM table_list ORDERBY column_name
+   20                 | SELECT select_list FROM table_list WHERE search_condition ORDERBY column_name
+   21                 | SELECT DISTINCT select_list FROM table_list WHERE search_condition ORDERBY column_name
+
+   22 select_list: STAR_MULTIPLICATION
+   23            | select_sublist
+
+   24 select_sublist: column_name
+   25               | column_name COLON select_sublist
+
+   26 table_list: NAME
+   27           | NAME COLON table_list
+
+   28 insert_statement: INSERTINTO NAME OPAREN attribute_list EPAREN insert_tuples
+
+   29 attribute_list: NAME
+   30               | NAME COLON attribute_list
+
+   31 insert_tuples: VALUES OPAREN value_list EPAREN
+   32              | select_statement
+
+   33 value_list: value
+   34           | value COLON value_list
+
+   35 value: LITERAL
+   36      | INTEGER
+   37      | TOKNULL
+
+   38 delete_statement: DELETE FROM NAME
+   39                 | DELETE FROM NAME WHERE search_condition
+
+   40 search_condition: boolean_term
+   41                 | boolean_term OR search_condition
+
+   42 boolean_term: boolean_factor
+   43             | boolean_factor AND boolean_term
+
+   44 boolean_factor: boolean_primary
+   45               | NOT boolean_primary
+
+   46 boolean_primary: comparison_predicate
+   47                | OPAREN search_condition EPAREN
+
+   48 comparison_predicate: expression COMPOP expression
+
+   49 expression: term
+   50           | term PLUS expression
+   51           | term MINUS expression
+
+   52 term: factor
+   53     | factor STAR_MULTIPLICATION term
+   54     | factor DIVISION term
+
+   55 factor: column_name
+   56       | LITERAL
+   57       | INTEGER
+   58       | OPAREN expression EPAREN
+
+   59 column_name: NAME
+   60            | NAME DOT NAME
+
+
+終結語詞，附有它們出現處的規則
+
+$end (0) 0
+error (256)
+CREATE (258) 8
+TABLE (259) 8 13
+DROP (260) 13
+SELECT (261) 14 15 16 17 18 19 20 21
+DISTINCT (262) 15 17 19 21
+FROM (263) 14 15 16 17 18 19 20 21 38 39
+WHERE (264) 16 17 20 21 39
+ORDERBY (265) 18 19 20 21
+DELETE (266) 38 39
+INSERTINTO (267) 28
+VALUES (268) 31
+OR (269) 41
+AND (270) 43
+NOT (271) 45
+OPAREN (272) 8 28 31 47 58
+EPAREN (273) 8 28 31 47 58
+COLON (274) 10 25 27 30 34
+STAR_MULTIPLICATION (275) 22 53
+PLUS (276) 50
+MINUS (277) 51
+DIVISION (278) 54
+DOT (279) 60
+TOKNULL (280) 37
+NEWLINE (281) 1 2
+INTEGER (282) 36 57
+NAME (283) 8 9 10 13 26 27 28 29 30 38 39 59 60
+LITERAL (284) 35 56
+COMPOP (285) 48
+INTTOK (286) 11
+STR20TOK (287) 12
+
+
+非終結語詞，附有它們出現處的規則
+
+$accept (33)
+    於左側： 0
+statements (34)
+    於左側： 1 2, 於右側： 0 2
+statement (35)
+    於左側： 3 4 5 6 7, 於右側： 1 2
+create_table_statement (36)
+    於左側： 8, 於右側： 3
+attribute_type_list (37)
+    於左側： 9 10, 於右側： 8 10
+data_type (38)
+    於左側： 11 12, 於右側： 9 10
+drop_table_statement (39)
+    於左側： 13, 於右側： 4
+select_statement (40)
+    於左側： 14 15 16 17 18 19 20 21, 於右側： 5 32
+select_list (41)
+    於左側： 22 23, 於右側： 14 15 16 17 18 19 20 21
+select_sublist (42)
+    於左側： 24 25, 於右側： 23 25
+table_list (43)
+    於左側： 26 27, 於右側： 14 15 16 17 18 19 20 21 27
+insert_statement (44)
+    於左側： 28, 於右側： 6
+attribute_list (45)
+    於左側： 29 30, 於右側： 28 30
+insert_tuples (46)
+    於左側： 31 32, 於右側： 28
+value_list (47)
+    於左側： 33 34, 於右側： 31 34
+value (48)
+    於左側： 35 36 37, 於右側： 33 34
+delete_statement (49)
+    於左側： 38 39, 於右側： 7
+search_condition (50)
+    於左側： 40 41, 於右側： 16 17 20 21 39 41 47
+boolean_term (51)
+    於左側： 42 43, 於右側： 40 41 43
+boolean_factor (52)
+    於左側： 44 45, 於右側： 42 43
+boolean_primary (53)
+    於左側： 46 47, 於右側： 44 45
+comparison_predicate (54)
+    於左側： 48, 於右側： 46
+expression (55)
+    於左側： 49 50 51, 於右側： 48 50 51 58
+term (56)
+    於左側： 52 53 54, 於右側： 49 50 51 53 54
+factor (57)
+    於左側： 55 56 57 58, 於右側： 52 53 54
+column_name (58)
+    於左側： 59 60, 於右側： 18 19 20 21 24 25 55
+
+
+狀態 0
+
+    0 $accept: . statements $end
+
+    CREATE      偏移，並進入狀態 1
+    DROP        偏移，並進入狀態 2
+    SELECT      偏移，並進入狀態 3
+    DELETE      偏移，並進入狀態 4
+    INSERTINTO  偏移，並進入狀態 5
+
+    statements              進入狀態 6
+    statement               進入狀態 7
+    create_table_statement  進入狀態 8
+    drop_table_statement    進入狀態 9
+    select_statement        進入狀態 10
+    insert_statement        進入狀態 11
+    delete_statement        進入狀態 12
+
+
+狀態 1
+
+    8 create_table_statement: CREATE . TABLE NAME OPAREN attribute_type_list EPAREN
+
+    TABLE  偏移，並進入狀態 13
+
+
+狀態 2
+
+   13 drop_table_statement: DROP . TABLE NAME
+
+    TABLE  偏移，並進入狀態 14
+
+
+狀態 3
+
+   14 select_statement: SELECT . select_list FROM table_list
+   15                 | SELECT . DISTINCT select_list FROM table_list
+   16                 | SELECT . select_list FROM table_list WHERE search_condition
+   17                 | SELECT . DISTINCT select_list FROM table_list WHERE search_condition
+   18                 | SELECT . select_list FROM table_list ORDERBY column_name
+   19                 | SELECT . DISTINCT select_list FROM table_list ORDERBY column_name
+   20                 | SELECT . select_list FROM table_list WHERE search_condition ORDERBY column_name
+   21                 | SELECT . DISTINCT select_list FROM table_list WHERE search_condition ORDERBY column_name
+
+    DISTINCT             偏移，並進入狀態 15
+    STAR_MULTIPLICATION  偏移，並進入狀態 16
+    NAME                 偏移，並進入狀態 17
+
+    select_list     進入狀態 18
+    select_sublist  進入狀態 19
+    column_name     進入狀態 20
+
+
+狀態 4
+
+   38 delete_statement: DELETE . FROM NAME
+   39                 | DELETE . FROM NAME WHERE search_condition
+
+    FROM  偏移，並進入狀態 21
+
+
+狀態 5
+
+   28 insert_statement: INSERTINTO . NAME OPAREN attribute_list EPAREN insert_tuples
+
+    NAME  偏移，並進入狀態 22
+
+
+狀態 6
+
+    0 $accept: statements . $end
+    2 statements: statements . statement NEWLINE
+
+    $end        偏移，並進入狀態 23
+    CREATE      偏移，並進入狀態 1
+    DROP        偏移，並進入狀態 2
+    SELECT      偏移，並進入狀態 3
+    DELETE      偏移，並進入狀態 4
+    INSERTINTO  偏移，並進入狀態 5
+
+    statement               進入狀態 24
+    create_table_statement  進入狀態 8
+    drop_table_statement    進入狀態 9
+    select_statement        進入狀態 10
+    insert_statement        進入狀態 11
+    delete_statement        進入狀態 12
+
+
+狀態 7
+
+    1 statements: statement . NEWLINE
+
+    NEWLINE  偏移，並進入狀態 25
+
+
+狀態 8
+
+    3 statement: create_table_statement .
+
+    $預設  使用規則 3 以縮減 (statement)
+
+
+狀態 9
+
+    4 statement: drop_table_statement .
+
+    $預設  使用規則 4 以縮減 (statement)
+
+
+狀態 10
+
+    5 statement: select_statement .
+
+    $預設  使用規則 5 以縮減 (statement)
+
+
+狀態 11
+
+    6 statement: insert_statement .
+
+    $預設  使用規則 6 以縮減 (statement)
+
+
+狀態 12
+
+    7 statement: delete_statement .
+
+    $預設  使用規則 7 以縮減 (statement)
+
+
+狀態 13
+
+    8 create_table_statement: CREATE TABLE . NAME OPAREN attribute_type_list EPAREN
+
+    NAME  偏移，並進入狀態 26
+
+
+狀態 14
+
+   13 drop_table_statement: DROP TABLE . NAME
+
+    NAME  偏移，並進入狀態 27
+
+
+狀態 15
+
+   15 select_statement: SELECT DISTINCT . select_list FROM table_list
+   17                 | SELECT DISTINCT . select_list FROM table_list WHERE search_condition
+   19                 | SELECT DISTINCT . select_list FROM table_list ORDERBY column_name
+   21                 | SELECT DISTINCT . select_list FROM table_list WHERE search_condition ORDERBY column_name
+
+    STAR_MULTIPLICATION  偏移，並進入狀態 16
+    NAME                 偏移，並進入狀態 17
+
+    select_list     進入狀態 28
+    select_sublist  進入狀態 19
+    column_name     進入狀態 20
+
+
+狀態 16
+
+   22 select_list: STAR_MULTIPLICATION .
+
+    $預設  使用規則 22 以縮減 (select_list)
+
+
+狀態 17
+
+   59 column_name: NAME .
+   60            | NAME . DOT NAME
+
+    DOT  偏移，並進入狀態 29
+
+    $預設  使用規則 59 以縮減 (column_name)
+
+
+狀態 18
+
+   14 select_statement: SELECT select_list . FROM table_list
+   16                 | SELECT select_list . FROM table_list WHERE search_condition
+   18                 | SELECT select_list . FROM table_list ORDERBY column_name
+   20                 | SELECT select_list . FROM table_list WHERE search_condition ORDERBY column_name
+
+    FROM  偏移，並進入狀態 30
+
+
+狀態 19
+
+   23 select_list: select_sublist .
+
+    $預設  使用規則 23 以縮減 (select_list)
+
+
+狀態 20
+
+   24 select_sublist: column_name .
+   25               | column_name . COLON select_sublist
+
+    COLON  偏移，並進入狀態 31
+
+    $預設  使用規則 24 以縮減 (select_sublist)
+
+
+狀態 21
+
+   38 delete_statement: DELETE FROM . NAME
+   39                 | DELETE FROM . NAME WHERE search_condition
+
+    NAME  偏移，並進入狀態 32
+
+
+狀態 22
+
+   28 insert_statement: INSERTINTO NAME . OPAREN attribute_list EPAREN insert_tuples
+
+    OPAREN  偏移，並進入狀態 33
+
+
+狀態 23
+
+    0 $accept: statements $end .
+
+    $預設  接受
+
+
+狀態 24
+
+    2 statements: statements statement . NEWLINE
+
+    NEWLINE  偏移，並進入狀態 34
+
+
+狀態 25
+
+    1 statements: statement NEWLINE .
+
+    $預設  使用規則 1 以縮減 (statements)
+
+
+狀態 26
+
+    8 create_table_statement: CREATE TABLE NAME . OPAREN attribute_type_list EPAREN
+
+    OPAREN  偏移，並進入狀態 35
+
+
+狀態 27
+
+   13 drop_table_statement: DROP TABLE NAME .
+
+    $預設  使用規則 13 以縮減 (drop_table_statement)
+
+
+狀態 28
+
+   15 select_statement: SELECT DISTINCT select_list . FROM table_list
+   17                 | SELECT DISTINCT select_list . FROM table_list WHERE search_condition
+   19                 | SELECT DISTINCT select_list . FROM table_list ORDERBY column_name
+   21                 | SELECT DISTINCT select_list . FROM table_list WHERE search_condition ORDERBY column_name
+
+    FROM  偏移，並進入狀態 36
+
+
+狀態 29
+
+   60 column_name: NAME DOT . NAME
+
+    NAME  偏移，並進入狀態 37
+
+
+狀態 30
+
+   14 select_statement: SELECT select_list FROM . table_list
+   16                 | SELECT select_list FROM . table_list WHERE search_condition
+   18                 | SELECT select_list FROM . table_list ORDERBY column_name
+   20                 | SELECT select_list FROM . table_list WHERE search_condition ORDERBY column_name
+
+    NAME  偏移，並進入狀態 38
+
+    table_list  進入狀態 39
+
+
+狀態 31
+
+   25 select_sublist: column_name COLON . select_sublist
+
+    NAME  偏移，並進入狀態 17
+
+    select_sublist  進入狀態 40
+    column_name     進入狀態 20
+
+
+狀態 32
+
+   38 delete_statement: DELETE FROM NAME .
+   39                 | DELETE FROM NAME . WHERE search_condition
+
+    WHERE  偏移，並進入狀態 41
+
+    $預設  使用規則 38 以縮減 (delete_statement)
+
+
+狀態 33
+
+   28 insert_statement: INSERTINTO NAME OPAREN . attribute_list EPAREN insert_tuples
+
+    NAME  偏移，並進入狀態 42
+
+    attribute_list  進入狀態 43
+
+
+狀態 34
+
+    2 statements: statements statement NEWLINE .
+
+    $預設  使用規則 2 以縮減 (statements)
+
+
+狀態 35
+
+    8 create_table_statement: CREATE TABLE NAME OPAREN . attribute_type_list EPAREN
+
+    NAME  偏移，並進入狀態 44
+
+    attribute_type_list  進入狀態 45
+
+
+狀態 36
+
+   15 select_statement: SELECT DISTINCT select_list FROM . table_list
+   17                 | SELECT DISTINCT select_list FROM . table_list WHERE search_condition
+   19                 | SELECT DISTINCT select_list FROM . table_list ORDERBY column_name
+   21                 | SELECT DISTINCT select_list FROM . table_list WHERE search_condition ORDERBY column_name
+
+    NAME  偏移，並進入狀態 38
+
+    table_list  進入狀態 46
+
+
+狀態 37
+
+   60 column_name: NAME DOT NAME .
+
+    $預設  使用規則 60 以縮減 (column_name)
+
+
+狀態 38
+
+   26 table_list: NAME .
+   27           | NAME . COLON table_list
+
+    COLON  偏移，並進入狀態 47
+
+    $預設  使用規則 26 以縮減 (table_list)
+
+
+狀態 39
+
+   14 select_statement: SELECT select_list FROM table_list .
+   16                 | SELECT select_list FROM table_list . WHERE search_condition
+   18                 | SELECT select_list FROM table_list . ORDERBY column_name
+   20                 | SELECT select_list FROM table_list . WHERE search_condition ORDERBY column_name
+
+    WHERE    偏移，並進入狀態 48
+    ORDERBY  偏移，並進入狀態 49
+
+    $預設  使用規則 14 以縮減 (select_statement)
+
+
+狀態 40
+
+   25 select_sublist: column_name COLON select_sublist .
+
+    $預設  使用規則 25 以縮減 (select_sublist)
+
+
+狀態 41
+
+   39 delete_statement: DELETE FROM NAME WHERE . search_condition
+
+    NOT      偏移，並進入狀態 50
+    OPAREN   偏移，並進入狀態 51
+    INTEGER  偏移，並進入狀態 52
+    NAME     偏移，並進入狀態 17
+    LITERAL  偏移，並進入狀態 53
+
+    search_condition      進入狀態 54
+    boolean_term          進入狀態 55
+    boolean_factor        進入狀態 56
+    boolean_primary       進入狀態 57
+    comparison_predicate  進入狀態 58
+    expression            進入狀態 59
+    term                  進入狀態 60
+    factor                進入狀態 61
+    column_name           進入狀態 62
+
+
+狀態 42
+
+   29 attribute_list: NAME .
+   30               | NAME . COLON attribute_list
+
+    COLON  偏移，並進入狀態 63
+
+    $預設  使用規則 29 以縮減 (attribute_list)
+
+
+狀態 43
+
+   28 insert_statement: INSERTINTO NAME OPAREN attribute_list . EPAREN insert_tuples
+
+    EPAREN  偏移，並進入狀態 64
+
+
+狀態 44
+
+    9 attribute_type_list: NAME . data_type
+   10                    | NAME . data_type COLON attribute_type_list
+
+    INTTOK    偏移，並進入狀態 65
+    STR20TOK  偏移，並進入狀態 66
+
+    data_type  進入狀態 67
+
+
+狀態 45
+
+    8 create_table_statement: CREATE TABLE NAME OPAREN attribute_type_list . EPAREN
+
+    EPAREN  偏移，並進入狀態 68
+
+
+狀態 46
+
+   15 select_statement: SELECT DISTINCT select_list FROM table_list .
+   17                 | SELECT DISTINCT select_list FROM table_list . WHERE search_condition
+   19                 | SELECT DISTINCT select_list FROM table_list . ORDERBY column_name
+   21                 | SELECT DISTINCT select_list FROM table_list . WHERE search_condition ORDERBY column_name
+
+    WHERE    偏移，並進入狀態 69
+    ORDERBY  偏移，並進入狀態 70
+
+    $預設  使用規則 15 以縮減 (select_statement)
+
+
+狀態 47
+
+   27 table_list: NAME COLON . table_list
+
+    NAME  偏移，並進入狀態 38
+
+    table_list  進入狀態 71
+
+
+狀態 48
+
+   16 select_statement: SELECT select_list FROM table_list WHERE . search_condition
+   20                 | SELECT select_list FROM table_list WHERE . search_condition ORDERBY column_name
+
+    NOT      偏移，並進入狀態 50
+    OPAREN   偏移，並進入狀態 51
+    INTEGER  偏移，並進入狀態 52
+    NAME     偏移，並進入狀態 17
+    LITERAL  偏移，並進入狀態 53
+
+    search_condition      進入狀態 72
+    boolean_term          進入狀態 55
+    boolean_factor        進入狀態 56
+    boolean_primary       進入狀態 57
+    comparison_predicate  進入狀態 58
+    expression            進入狀態 59
+    term                  進入狀態 60
+    factor                進入狀態 61
+    column_name           進入狀態 62
+
+
+狀態 49
+
+   18 select_statement: SELECT select_list FROM table_list ORDERBY . column_name
+
+    NAME  偏移，並進入狀態 17
+
+    column_name  進入狀態 73
+
+
+狀態 50
+
+   45 boolean_factor: NOT . boolean_primary
+
+    OPAREN   偏移，並進入狀態 51
+    INTEGER  偏移，並進入狀態 52
+    NAME     偏移，並進入狀態 17
+    LITERAL  偏移，並進入狀態 53
+
+    boolean_primary       進入狀態 74
+    comparison_predicate  進入狀態 58
+    expression            進入狀態 59
+    term                  進入狀態 60
+    factor                進入狀態 61
+    column_name           進入狀態 62
+
+
+狀態 51
+
+   47 boolean_primary: OPAREN . search_condition EPAREN
+   58 factor: OPAREN . expression EPAREN
+
+    NOT      偏移，並進入狀態 50
+    OPAREN   偏移，並進入狀態 51
+    INTEGER  偏移，並進入狀態 52
+    NAME     偏移，並進入狀態 17
+    LITERAL  偏移，並進入狀態 53
+
+    search_condition      進入狀態 75
+    boolean_term          進入狀態 55
+    boolean_factor        進入狀態 56
+    boolean_primary       進入狀態 57
+    comparison_predicate  進入狀態 58
+    expression            進入狀態 76
+    term                  進入狀態 60
+    factor                進入狀態 61
+    column_name           進入狀態 62
+
+
+狀態 52
+
+   57 factor: INTEGER .
+
+    $預設  使用規則 57 以縮減 (factor)
+
+
+狀態 53
+
+   56 factor: LITERAL .
+
+    $預設  使用規則 56 以縮減 (factor)
+
+
+狀態 54
+
+   39 delete_statement: DELETE FROM NAME WHERE search_condition .
+
+    $預設  使用規則 39 以縮減 (delete_statement)
+
+
+狀態 55
+
+   40 search_condition: boolean_term .
+   41                 | boolean_term . OR search_condition
+
+    OR  偏移，並進入狀態 77
+
+    $預設  使用規則 40 以縮減 (search_condition)
+
+
+狀態 56
+
+   42 boolean_term: boolean_factor .
+   43             | boolean_factor . AND boolean_term
+
+    AND  偏移，並進入狀態 78
+
+    $預設  使用規則 42 以縮減 (boolean_term)
+
+
+狀態 57
+
+   44 boolean_factor: boolean_primary .
+
+    $預設  使用規則 44 以縮減 (boolean_factor)
+
+
+狀態 58
+
+   46 boolean_primary: comparison_predicate .
+
+    $預設  使用規則 46 以縮減 (boolean_primary)
+
+
+狀態 59
+
+   48 comparison_predicate: expression . COMPOP expression
+
+    COMPOP  偏移，並進入狀態 79
+
+
+狀態 60
+
+   49 expression: term .
+   50           | term . PLUS expression
+   51           | term . MINUS expression
+
+    PLUS   偏移，並進入狀態 80
+    MINUS  偏移，並進入狀態 81
+
+    $預設  使用規則 49 以縮減 (expression)
+
+
+狀態 61
+
+   52 term: factor .
+   53     | factor . STAR_MULTIPLICATION term
+   54     | factor . DIVISION term
+
+    STAR_MULTIPLICATION  偏移，並進入狀態 82
+    DIVISION             偏移，並進入狀態 83
+
+    $預設  使用規則 52 以縮減 (term)
+
+
+狀態 62
+
+   55 factor: column_name .
+
+    $預設  使用規則 55 以縮減 (factor)
+
+
+狀態 63
+
+   30 attribute_list: NAME COLON . attribute_list
+
+    NAME  偏移，並進入狀態 42
+
+    attribute_list  進入狀態 84
+
+
+狀態 64
+
+   28 insert_statement: INSERTINTO NAME OPAREN attribute_list EPAREN . insert_tuples
+
+    SELECT  偏移，並進入狀態 3
+    VALUES  偏移，並進入狀態 85
+
+    select_statement  進入狀態 86
+    insert_tuples     進入狀態 87
+
+
+狀態 65
+
+   11 data_type: INTTOK .
+
+    $預設  使用規則 11 以縮減 (data_type)
+
+
+狀態 66
+
+   12 data_type: STR20TOK .
+
+    $預設  使用規則 12 以縮減 (data_type)
+
+
+狀態 67
+
+    9 attribute_type_list: NAME data_type .
+   10                    | NAME data_type . COLON attribute_type_list
+
+    COLON  偏移，並進入狀態 88
+
+    $預設  使用規則 9 以縮減 (attribute_type_list)
+
+
+狀態 68
+
+    8 create_table_statement: CREATE TABLE NAME OPAREN attribute_type_list EPAREN .
+
+    $預設  使用規則 8 以縮減 (create_table_statement)
+
+
+狀態 69
+
+   17 select_statement: SELECT DISTINCT select_list FROM table_list WHERE . search_condition
+   21                 | SELECT DISTINCT select_list FROM table_list WHERE . search_condition ORDERBY column_name
+
+    NOT      偏移，並進入狀態 50
+    OPAREN   偏移，並進入狀態 51
+    INTEGER  偏移，並進入狀態 52
+    NAME     偏移，並進入狀態 17
+    LITERAL  偏移，並進入狀態 53
+
+    search_condition      進入狀態 89
+    boolean_term          進入狀態 55
+    boolean_factor        進入狀態 56
+    boolean_primary       進入狀態 57
+    comparison_predicate  進入狀態 58
+    expression            進入狀態 59
+    term                  進入狀態 60
+    factor                進入狀態 61
+    column_name           進入狀態 62
+
+
+狀態 70
+
+   19 select_statement: SELECT DISTINCT select_list FROM table_list ORDERBY . column_name
+
+    NAME  偏移，並進入狀態 17
+
+    column_name  進入狀態 90
+
+
+狀態 71
+
+   27 table_list: NAME COLON table_list .
+
+    $預設  使用規則 27 以縮減 (table_list)
+
+
+狀態 72
+
+   16 select_statement: SELECT select_list FROM table_list WHERE search_condition .
+   20                 | SELECT select_list FROM table_list WHERE search_condition . ORDERBY column_name
+
+    ORDERBY  偏移，並進入狀態 91
+
+    $預設  使用規則 16 以縮減 (select_statement)
+
+
+狀態 73
+
+   18 select_statement: SELECT select_list FROM table_list ORDERBY column_name .
+
+    $預設  使用規則 18 以縮減 (select_statement)
+
+
+狀態 74
+
+   45 boolean_factor: NOT boolean_primary .
+
+    $預設  使用規則 45 以縮減 (boolean_factor)
+
+
+狀態 75
+
+   47 boolean_primary: OPAREN search_condition . EPAREN
+
+    EPAREN  偏移，並進入狀態 92
+
+
+狀態 76
+
+   48 comparison_predicate: expression . COMPOP expression
+   58 factor: OPAREN expression . EPAREN
+
+    EPAREN  偏移，並進入狀態 93
+    COMPOP  偏移，並進入狀態 79
+
+
+狀態 77
+
+   41 search_condition: boolean_term OR . search_condition
+
+    NOT      偏移，並進入狀態 50
+    OPAREN   偏移，並進入狀態 51
+    INTEGER  偏移，並進入狀態 52
+    NAME     偏移，並進入狀態 17
+    LITERAL  偏移，並進入狀態 53
+
+    search_condition      進入狀態 94
+    boolean_term          進入狀態 55
+    boolean_factor        進入狀態 56
+    boolean_primary       進入狀態 57
+    comparison_predicate  進入狀態 58
+    expression            進入狀態 59
+    term                  進入狀態 60
+    factor                進入狀態 61
+    column_name           進入狀態 62
+
+
+狀態 78
+
+   43 boolean_term: boolean_factor AND . boolean_term
+
+    NOT      偏移，並進入狀態 50
+    OPAREN   偏移，並進入狀態 51
+    INTEGER  偏移，並進入狀態 52
+    NAME     偏移，並進入狀態 17
+    LITERAL  偏移，並進入狀態 53
+
+    boolean_term          進入狀態 95
+    boolean_factor        進入狀態 56
+    boolean_primary       進入狀態 57
+    comparison_predicate  進入狀態 58
+    expression            進入狀態 59
+    term                  進入狀態 60
+    factor                進入狀態 61
+    column_name           進入狀態 62
+
+
+狀態 79
+
+   48 comparison_predicate: expression COMPOP . expression
+
+    OPAREN   偏移，並進入狀態 96
+    INTEGER  偏移，並進入狀態 52
+    NAME     偏移，並進入狀態 17
+    LITERAL  偏移，並進入狀態 53
+
+    expression   進入狀態 97
+    term         進入狀態 60
+    factor       進入狀態 61
+    column_name  進入狀態 62
+
+
+狀態 80
+
+   50 expression: term PLUS . expression
+
+    OPAREN   偏移，並進入狀態 96
+    INTEGER  偏移，並進入狀態 52
+    NAME     偏移，並進入狀態 17
+    LITERAL  偏移，並進入狀態 53
+
+    expression   進入狀態 98
+    term         進入狀態 60
+    factor       進入狀態 61
+    column_name  進入狀態 62
+
+
+狀態 81
+
+   51 expression: term MINUS . expression
+
+    OPAREN   偏移，並進入狀態 96
+    INTEGER  偏移，並進入狀態 52
+    NAME     偏移，並進入狀態 17
+    LITERAL  偏移，並進入狀態 53
+
+    expression   進入狀態 99
+    term         進入狀態 60
+    factor       進入狀態 61
+    column_name  進入狀態 62
+
+
+狀態 82
+
+   53 term: factor STAR_MULTIPLICATION . term
+
+    OPAREN   偏移，並進入狀態 96
+    INTEGER  偏移，並進入狀態 52
+    NAME     偏移，並進入狀態 17
+    LITERAL  偏移，並進入狀態 53
+
+    term         進入狀態 100
+    factor       進入狀態 61
+    column_name  進入狀態 62
+
+
+狀態 83
+
+   54 term: factor DIVISION . term
+
+    OPAREN   偏移，並進入狀態 96
+    INTEGER  偏移，並進入狀態 52
+    NAME     偏移，並進入狀態 17
+    LITERAL  偏移，並進入狀態 53
+
+    term         進入狀態 101
+    factor       進入狀態 61
+    column_name  進入狀態 62
+
+
+狀態 84
+
+   30 attribute_list: NAME COLON attribute_list .
+
+    $預設  使用規則 30 以縮減 (attribute_list)
+
+
+狀態 85
+
+   31 insert_tuples: VALUES . OPAREN value_list EPAREN
+
+    OPAREN  偏移，並進入狀態 102
+
+
+狀態 86
+
+   32 insert_tuples: select_statement .
+
+    $預設  使用規則 32 以縮減 (insert_tuples)
+
+
+狀態 87
+
+   28 insert_statement: INSERTINTO NAME OPAREN attribute_list EPAREN insert_tuples .
+
+    $預設  使用規則 28 以縮減 (insert_statement)
+
+
+狀態 88
+
+   10 attribute_type_list: NAME data_type COLON . attribute_type_list
+
+    NAME  偏移，並進入狀態 44
+
+    attribute_type_list  進入狀態 103
+
+
+狀態 89
+
+   17 select_statement: SELECT DISTINCT select_list FROM table_list WHERE search_condition .
+   21                 | SELECT DISTINCT select_list FROM table_list WHERE search_condition . ORDERBY column_name
+
+    ORDERBY  偏移，並進入狀態 104
+
+    $預設  使用規則 17 以縮減 (select_statement)
+
+
+狀態 90
+
+   19 select_statement: SELECT DISTINCT select_list FROM table_list ORDERBY column_name .
+
+    $預設  使用規則 19 以縮減 (select_statement)
+
+
+狀態 91
+
+   20 select_statement: SELECT select_list FROM table_list WHERE search_condition ORDERBY . column_name
+
+    NAME  偏移，並進入狀態 17
+
+    column_name  進入狀態 105
+
+
+狀態 92
+
+   47 boolean_primary: OPAREN search_condition EPAREN .
+
+    $預設  使用規則 47 以縮減 (boolean_primary)
+
+
+狀態 93
+
+   58 factor: OPAREN expression EPAREN .
+
+    $預設  使用規則 58 以縮減 (factor)
+
+
+狀態 94
+
+   41 search_condition: boolean_term OR search_condition .
+
+    $預設  使用規則 41 以縮減 (search_condition)
+
+
+狀態 95
+
+   43 boolean_term: boolean_factor AND boolean_term .
+
+    $預設  使用規則 43 以縮減 (boolean_term)
+
+
+狀態 96
+
+   58 factor: OPAREN . expression EPAREN
+
+    OPAREN   偏移，並進入狀態 96
+    INTEGER  偏移，並進入狀態 52
+    NAME     偏移，並進入狀態 17
+    LITERAL  偏移，並進入狀態 53
+
+    expression   進入狀態 106
+    term         進入狀態 60
+    factor       進入狀態 61
+    column_name  進入狀態 62
+
+
+狀態 97
+
+   48 comparison_predicate: expression COMPOP expression .
+
+    $預設  使用規則 48 以縮減 (comparison_predicate)
+
+
+狀態 98
+
+   50 expression: term PLUS expression .
+
+    $預設  使用規則 50 以縮減 (expression)
+
+
+狀態 99
+
+   51 expression: term MINUS expression .
+
+    $預設  使用規則 51 以縮減 (expression)
+
+
+狀態 100
+
+   53 term: factor STAR_MULTIPLICATION term .
+
+    $預設  使用規則 53 以縮減 (term)
+
+
+狀態 101
+
+   54 term: factor DIVISION term .
+
+    $預設  使用規則 54 以縮減 (term)
+
+
+狀態 102
+
+   31 insert_tuples: VALUES OPAREN . value_list EPAREN
+
+    TOKNULL  偏移，並進入狀態 107
+    INTEGER  偏移，並進入狀態 108
+    LITERAL  偏移，並進入狀態 109
+
+    value_list  進入狀態 110
+    value       進入狀態 111
+
+
+狀態 103
+
+   10 attribute_type_list: NAME data_type COLON attribute_type_list .
+
+    $預設  使用規則 10 以縮減 (attribute_type_list)
+
+
+狀態 104
+
+   21 select_statement: SELECT DISTINCT select_list FROM table_list WHERE search_condition ORDERBY . column_name
+
+    NAME  偏移，並進入狀態 17
+
+    column_name  進入狀態 112
+
+
+狀態 105
+
+   20 select_statement: SELECT select_list FROM table_list WHERE search_condition ORDERBY column_name .
+
+    $預設  使用規則 20 以縮減 (select_statement)
+
+
+狀態 106
+
+   58 factor: OPAREN expression . EPAREN
+
+    EPAREN  偏移，並進入狀態 93
+
+
+狀態 107
+
+   37 value: TOKNULL .
+
+    $預設  使用規則 37 以縮減 (value)
+
+
+狀態 108
+
+   36 value: INTEGER .
+
+    $預設  使用規則 36 以縮減 (value)
+
+
+狀態 109
+
+   35 value: LITERAL .
+
+    $預設  使用規則 35 以縮減 (value)
+
+
+狀態 110
+
+   31 insert_tuples: VALUES OPAREN value_list . EPAREN
+
+    EPAREN  偏移，並進入狀態 113
+
+
+狀態 111
+
+   33 value_list: value .
+   34           | value . COLON value_list
+
+    COLON  偏移，並進入狀態 114
+
+    $預設  使用規則 33 以縮減 (value_list)
+
+
+狀態 112
+
+   21 select_statement: SELECT DISTINCT select_list FROM table_list WHERE search_condition ORDERBY column_name .
+
+    $預設  使用規則 21 以縮減 (select_statement)
+
+
+狀態 113
+
+   31 insert_tuples: VALUES OPAREN value_list EPAREN .
+
+    $預設  使用規則 31 以縮減 (insert_tuples)
+
+
+狀態 114
+
+   34 value_list: value COLON . value_list
+
+    TOKNULL  偏移，並進入狀態 107
+    INTEGER  偏移，並進入狀態 108
+    LITERAL  偏移，並進入狀態 109
+
+    value_list  進入狀態 115
+    value       進入狀態 111
+
+
+狀態 115
+
+   34 value_list: value COLON value_list .
+
+    $預設  使用規則 34 以縮減 (value_list)

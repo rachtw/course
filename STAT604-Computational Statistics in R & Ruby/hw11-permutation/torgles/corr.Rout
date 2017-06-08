@@ -1,0 +1,149 @@
+
+R version 2.4.0 (2006-10-03)
+Copyright (C) 2006 The R Foundation for Statistical Computing
+ISBN 3-900051-07-0
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> invisible(options(echo = TRUE))
+> dir <- "../../../delivery/grid/whole/globins"
+> 
+> doit <- function(x) {
++   result <- 0
++   for ( i in 1:(length(x)-1) ) {
++     result <- result + as.numeric(system(paste("distance ",dir,"/tor-pos_",x[i],".grid ",dir,"/tor-pos_",x[i+1],".grid",sep=""),intern=TRUE))
++   }
++   return(result/(length(x)-1))
++ }
+> 
+> maxpos <- 181
+> t.obs <- doit(1:maxpos)
+> print(t.obs)
+[1] 0.2139493
+> 
+> t.null <- numeric(100)
+> for ( i in 1:length(t.null) ) {
++   t.null[i] <- doit(sample(1:maxpos))
++   print(t.null[i])
++ }
+[1] 0.3637507
+[1] 0.3451414
+[1] 0.3466151
+[1] 0.3561748
+[1] 0.3413616
+[1] 0.3590304
+[1] 0.3625076
+[1] 0.3529755
+[1] 0.3759120
+[1] 0.3474258
+[1] 0.3438239
+[1] 0.3543751
+[1] 0.3466266
+[1] 0.3477062
+[1] 0.3792714
+[1] 0.3573221
+[1] 0.3659494
+[1] 0.3471246
+[1] 0.3470942
+[1] 0.3524834
+[1] 0.335943
+[1] 0.348269
+[1] 0.3571771
+[1] 0.3504685
+[1] 0.3501595
+[1] 0.3662779
+[1] 0.3646333
+[1] 0.3221184
+[1] 0.3601314
+[1] 0.3516424
+[1] 0.3494822
+[1] 0.353985
+[1] 0.3513382
+[1] 0.3432405
+[1] 0.3529945
+[1] 0.3536684
+[1] 0.3444572
+[1] 0.3468675
+[1] 0.3580869
+[1] 0.3642446
+[1] 0.3499737
+[1] 0.3465893
+[1] 0.3471080
+[1] 0.3435282
+[1] 0.3619285
+[1] 0.361752
+[1] 0.3496374
+[1] 0.353501
+[1] 0.3587058
+[1] 0.3398101
+[1] 0.365277
+[1] 0.3469878
+[1] 0.348716
+[1] 0.3425616
+[1] 0.3451583
+[1] 0.3398322
+[1] 0.3515692
+[1] 0.3581768
+[1] 0.3285586
+[1] 0.362703
+[1] 0.3606541
+[1] 0.3516641
+[1] 0.3636056
+[1] 0.3574046
+[1] 0.3434691
+[1] 0.353387
+[1] 0.3332759
+[1] 0.362378
+[1] 0.3389821
+[1] 0.3588368
+[1] 0.3656137
+[1] 0.3644503
+[1] 0.3545788
+[1] 0.3593692
+[1] 0.3609699
+[1] 0.3608533
+[1] 0.3670616
+[1] 0.3618662
+[1] 0.3466661
+[1] 0.3428284
+[1] 0.3467988
+[1] 0.3613551
+[1] 0.3436727
+[1] 0.3505999
+[1] 0.3304077
+[1] 0.36092
+[1] 0.3434446
+[1] 0.3444944
+[1] 0.3483371
+[1] 0.3443277
+[1] 0.3622817
+[1] 0.355259
+[1] 0.342623
+[1] 0.3580688
+[1] 0.3509286
+[1] 0.3589289
+[1] 0.3593338
+[1] 0.3586397
+[1] 0.3416838
+[1] 0.3473194
+> 
+> sum(t.null <= t.obs)
+[1] 0
+> 
+> 
+> 
+> proc.time()
+[1]   5.657  19.501 789.991 590.074 590.074
+> 

@@ -1,0 +1,22 @@
+[mufen@s0:~]% ruby monte-carlo-study.rb
+Initial estimates: beta0=-2.0 beta1=0.1
+
+n = [10, 10, 5, 5, 10, 10]
+After 3.925 iterations,
+the MLE of beta0 is -7.71125451563586,
+and the MLE of beta1 is 0.991537878737045.
+The bias of beta0 estimate is -0.711254515635856.
+The bias of beta1 estimate is 0.0915378787370449.
+The C.I. of beta0 estimate is -13.306926595751 -4.22237204822289
+The C.I. of beta1 estimate is 0.540020256673606 1.76276047611621
+
+n = [40, 40, 20, 20, 40, 40]
+After 3.972 iterations,
+the MLE of beta0 is -7.09300173938338,
+and the MLE of beta1 is 0.91328469660651.
+The bias of beta0 estimate is -0.0930017393833769.
+The bias of beta1 estimate is 0.0132846966065098.
+The C.I. of beta0 estimate is -9.21615413801752 -5.48927591301998
+The C.I. of beta1 estimate is 0.707289878462797 1.18510405929636
+
+Conclusion: The second experiment shows better confidence intervals.

@@ -1,0 +1,51 @@
+\documentclass[12pt]{article}
+
+\usepackage[margin=1.0in]{geometry}
+\usepackage{color}
+\usepackage{times}
+\usepackage{graphics}
+
+\pagestyle{empty}
+\setlength{\parindent}{0in}
+\setlength{\parskip}{2ex}
+\renewcommand{\baselinestretch}{1.0}
+
+\begin{document}
+STAT 604: Intro. to Statistical Computing \hfill Prof. David B. Dahl
+\begin{center}
+\Large Homework 9\\
+\end{center}
+
+This homework is designed to give you experience with:
+\begin{itemize}
+\item Markov chain Monte Carlo (MCMC) for generating random numbers from a posterior distribution in a Bayesian model.
+\end{itemize}
+
+The assignment has several parts.
+
+\Large Part 1
+
+\normalsize Let $x_1,\ldots,x_n$ be a random sample from the normal distribution with mean $\mu$ and variance 1. Therefore, the likelihood is $p(x_1,\ldots,x_n|\mu) = \prod_{i=1}^n \frac{1}{\sqrt{2\pi}} \exp{\frac{-1}{2}(x_i - \mu)^2}$. The mean $\mu$ is the parameter of interest and a Bayesian approach is taken. Suppose it is known that $\mu$ must be greater than 1.0 and less than 3.0 and consider a uniform prior of this range. That is, $p(\mu) = \frac{1}{2} I_{(1.0,3.0)}(\mu)$. Recall that, by Bayes theorem, the posterior distribution $p(\mu|x_1,\ldots,x_n)$ is proportional to the product of the likelihood $p(x_1,\ldots,x_n|\mu)$ and the prior $p(\mu)$.
+
+The sample data is:\\
+3.08, 0.68, 2.09, 0.87, -0.02, 0.25, 1.98, 1.47, 1.95, 0.99
+
+Use the classes and method in mcmc-sampler.rb to draw from the posterior distribution via Markov chain Monte Carlo in Ruby. (You may want to refer to the logistic regression example from a recent lecture.) Using Monte Carlo integration (if you wish, you may use the 'dbd/broccoli' library), answer the following questions:
+\begin{enumerate}
+\item What is the mean of the posterior distribution?
+\item What is the standard deviation of the posterior distribution?
+\item What is the probability that $\mu$ is greater than 1.7?
+\end{enumerate}
+
+Name your script 'mean-estimation.rb'.
+
+\Large Part 2
+
+\normalsize Modify the mcmc-sampler.rb script to accommodate non-symmetric proposal densities. That is, the script currently only implements the Metropolis algorithm and you are to modify it to implement the Metropolis-Hastings algorithm.
+
+\Large Part 3
+
+\normalsize Write a script called 'mean-estimation.R' which does Part 1 entirely in R instead of Ruby.
+
+Print out and staple all of the files you generated for each part. In addition, e-mail the files to hw09@dahlgrapevine.org.
+\end{document}

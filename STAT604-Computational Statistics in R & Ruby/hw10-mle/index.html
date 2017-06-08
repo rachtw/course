@@ -1,0 +1,76 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+  <title>Homework 10</title>
+</head>
+<body>
+STAT 604: Intro. to Statistical Computing<br />
+Prof. David B. Dahl<br />
+<h1>Homework 10</h1>
+
+<p>
+This homework is designed to give you experience with:
+<ul>
+<li>Multivariate maximum likelihood estimation using the Newton-Raphson method</li>
+<li>Monte Carlo methods for evaluating estimators</li>
+<li>Programming</li>
+</ul>
+</p>
+
+<p>
+The assignment has several parts.
+</p>
+
+<h2>Part 1</h2>
+
+<p>
+A recent lecture discussed finding the maximum likelihood estimate (MLE) of the success probability based on a binomial likelihood.
+Using Ruby, the binomial likelihood is implemented in the Binomial class defined in <a href="binomial/binomial.rb">binomial.rb</a>.  This class is
+derived from the LogLikelihood class in <a href="binomial/log-likelihood.rb">log-likelihood.rb</a>.  The Ruby script <a href="binomial/demo.rb">demo.rb</a> creates an instance of the Binomial class with 21 successes in 50 trials and then calls the method <tt>mle_via_newton</tt> to find the MLE of the success probability.  Your task is to implement the <tt>mle_via_newton</tt> in <a href="binomial/mle-via-newton.rb">mle-via-newton.rb</a>.  Your implementation should carefully follow the specification in the comments preceeding the function definition.  Also, you should not invert the Hessian matrix.
+</p>
+
+<h2>Part 2</h2>
+
+<p>
+In previous lectures, we looked at a logistic regression model for breast-feeding newborns and gestational age.  We modeled the probability that a premature infant is breast feeding by the time he/she leaves the hospital as a nonlinear function of gestational age at the time of birth.
+Previously, we first took a Bayesian approach (as described in <a href="bayesian-logistic-regression.jpg">these notes</a>) and used MCMC to obtain draws from the posterior distribution.  In this homework assignment, we will use
+the maximum likelihood approach and find the MLE using the Newton-Raphson algorithm.
+</p>
+
+<p>
+The logistic regression model was given in lecture and is reviewed in <a href="mle-nr-logistic.pdf">these notes</a>.  For your convenience, the
+<a href="mle-nr-logistic.pdf">notes</a> also contain the gradient and the Hessian matrix.
+</p>
+
+<p>
+Your task in this part of the homework is to write a script called "logistic-regression.rb" which defines the class LogisticRegression to implement logistic regression with an intercept term and one predictor variable.  The LogisticRegression class will be derived from the LogLikelihood class (just as the Binomial class in Part 1 is derived from the LogLikelihood class).  The constructor for your class should take an array for the values of the predictor, an array for the number of successes, and an array for the number of trials.  See the script <a href="nursing.rb">nursing.rb</a> for an example.  This script can also help you debug your code since it finds the MLE using: (1) Your <tt>mle_via_newton</tt> method of Part 1 and (2) R's built-in functions for logistic regression.  If you are having convergence problems, you should check your code for accuracy and consider several different starting values for the Newton-Raphson algorithm.
+</p>
+
+<h2>Part 3</h2>
+
+<p>
+Write a Ruby script called "random-binomial.rb" which defines a method <tt>random_binomial</tt> generating a realization from the binomial
+distribution for a given number of trials and a given success probability.
+</p>
+
+<h2>Part 4</h2>
+
+<p>
+Although maximum likelihood estimators are usually consistent, they may be biased for small sample sizes.  For the logistic regression model in Part 2, perform a Monte Carlo study to evaluate the bias of the MLE of the intercept $\beta_0$ and the bias of the MLE of the slope $\beta_1$.
+Let the predictor vector array be <tt>x = [ 5, 6, 7, 8, 9,10]</tt> and the number of trials array be <tt>n = [10,10, 5, 5,10,10]</tt>.  With $\beta0 = -7.0$ and $beta1 =  0.9$, repeatedly sample the binomial response array <tt>y</tt> using your script for Part 3.  For each generated dataset, find the MLE of the intercept and slope and record their values.  Based on your randomly generated datasets, compute the bias of the MLE for the intercept and the bias of the MLE for the slope.  Provide confidence intervals on your point estimates of the biases.  Again, if you are having convergence problems, you should check your code for accuracy and consider several different starting values for the Newton-Raphson algorithm.
+</p>
+
+<p>
+Now, quadruple the sample size by letting the number of trials array be <tt>n = [40,40,20,20,40,40]</tt>.  Repeat the simulation study.  What do you notice about the bias?
+</p>
+
+<p>
+Name the file used to perform this simulation study "monte-carlo-study.rb"
+</p>
+
+<br>
+
+<p>Print out and staple all of the files you generated for each part.  In addition, e-mail the files to hw10@dahlgrapevine.org.</p>
+
+</body>
+</html>

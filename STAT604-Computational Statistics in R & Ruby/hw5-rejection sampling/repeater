@@ -1,0 +1,22 @@
+#!/bin/bash
+if [ -e "output" ]
+then
+  rm -rf output
+fi
+mkdir output
+for ((a=1; a<=15 ; a++))
+do
+  ruby random-normals.rb
+  if [ "$a" -lt "10" ]
+  then
+    mv figure.pdf output/figure0$a.pdf
+  else
+    mv figure.pdf output/figure$a.pdf 
+  fi
+done
+if [ -e "output.tar.gz" ]
+then
+  rm output.tar.gz
+fi
+tar -cf output.tar output
+gzip output.tar

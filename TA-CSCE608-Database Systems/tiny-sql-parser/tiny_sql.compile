@@ -1,0 +1,11 @@
+#lex tiny_sql.l
+#yacc -d tiny_sql.y
+#cc lex.yy.c y.tab.c -o tiny_sql
+
+rm *.o tiny_sql.cc lex.yy.c
+lex tiny_sql.l 
+yacc --verbose --debug -d tiny_sql.y -o tiny_sql.cc
+cc -c lex.yy.c -o lex.yy.o
+c++ -c StorageManager.cpp
+c++ StorageManager.o lex.yy.o tiny_sql.cc -o tiny_sql
+

@@ -1,0 +1,3 @@
+ruby parametric-bootstrap.rb
+Point estimate parameter:  9.51762570486686
+95% bootstrap CI:          (8.48419621116527, 10.5280709469319)

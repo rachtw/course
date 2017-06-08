@@ -1,0 +1,4 @@
+(b)
+The wiggling sample paths and low autocorrelation plots for the three parameters show good mixing properties.
+(c)
+The estimate of theta is 38.6729. That is, under the change-point model, the "change point" of the rate of accidents occurred between year (1851+38)=1889 and year 1890. While we can observe by eyes that the number of disasters per year decreased around 1990, the change point actually occurred eariler as in 1890. The estimated lambda_1=3.14 and lambda_2=0.97 are also consistent with what we have observed: the rate of accidents was higher before year 1890 and dramatically decreased after that year.

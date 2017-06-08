@@ -1,0 +1,2 @@
+look at the biggest of the eigenvalue if it's negative
+GSL::Eigen:symmv(m)

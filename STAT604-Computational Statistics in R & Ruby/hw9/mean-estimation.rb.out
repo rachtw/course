@@ -1,0 +1,5 @@
+[mufen@s0:~/hw09]% ruby mean-estimation.rb
+Acceptance rate is: 0.96125
+1.42781493700654
+0.264120957655988
+0.8322

@@ -1,0 +1,72 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+  <title>Homework 5</title>
+</head>
+<body>
+STAT 604: Intro. to Statistical Computing<br />
+Prof. David B. Dahl<br />
+<h1>Homework 5</h1>
+
+<p>
+This homework is designed to give you experience with:
+<ul>
+<li>The inverse CDF method for generating random numbers,</li>
+<li>The rejection sampling method for generating random numbers,</li>
+<li>Implementing your ideas in Ruby.</li>
+</ul>
+</p>
+
+<p>
+The assignment has several parts.
+</p>
+
+<h2>Part 1</h2>
+
+<p>
+Download the file <a href="rejection-sampling/rejection-sampler.rb">rejection-sampler.rb</a> from our recent lecture.  Write code in the body of the method which performs acceptance/rejection sampling based on the classes 'Distribution' and 'SamplableDistribution' defined in the file <a href="rejection-sampling/distributions.rb">distributions.rb</a> from our recent lecture.  You can try out your method using <a href="rejection-sampling/rejection-sampling-demo.rb">rejection-sampling-demo.rb</a>.
+</p>
+
+<h2>Part 2</h2>
+
+<p>
+The <a href="http://en.wikipedia.org/wiki/Logistic_distribution">logistic distribution</a> has a CDF which is easily inverted.  Hence, the
+inverse CDF method for generating random numbers is easy to apply.  In Ruby, write a 'Logistic' class which is a subclass of 'SamplableDistribution'.  Define all the applicable methods (like the 'Uniform' class does).  The 'initialize' method should take exactly two parameters: 'mu' and 's', as defined in the <a href="http://en.wikipedia.org/wiki/Logistic_distribution">Wikipedia page</a>.  The 'sample' method should use the inverse CDF method.  Save your class in a file called 'logistic.rb'.
+</p>
+
+<h2>Part 3</h2>
+
+<p>
+In Ruby, write a 'Normal' class which is a subclass of 'Distribution'.  Define all the applicable methods (like the 'Beta' class does).  The 'initialize' method should take exactly two parameters: 'mean' and 'variance'.  Save your class in a file called 'normal.rb'.
+</p>
+
+<h2>Part 4</h2>
+
+<p>
+Many methods can be used to generate normally distributed random numbers.  In this section, you will use the acceptance/rejection method.  Write a
+Ruby script (i.e., program) called 'random-normals.rb' which generates 1,000 normally distributed random numbers with mean 3 and variance 4, using:
+<ul>
+<li>The method 'sample_via_rejection' in your 'rejection-sampler.rb' from Part 1,</li>
+<li>The 'Logistic' class from Part 2, and</li>
+<li>The 'Normal' class in Part 3.</li>
+</ul>
+That is, use the logistic distribution as a envelope distribution for the normal distribution.  Try to be efficient by limiting the number of rejections in the acceptance/rejection method.
+</p>
+
+<h2>Part 5</h2>
+
+<p>
+Using the results of Part 4, use R to produce one figure in a file 'figure.pdf' containing all three of the following:
+<ul>
+<li>A histogram of your normally distributed random numbers (Hint: use the "hist" function in R.),</li>
+<li>The theoretical density (in black) of the distribution from which your normally distributed random numbers are drawn.  (Hint: use the "lines" function in R.)</li>
+<li>The envelope function (scaled envelope density) used in the acceptance/rejection method.  Use the color red here.</li>
+</ul>
+</p>
+
+<br>
+
+<p>Print out and staple all of the files you generated for each part.  In addition, e-mail the files to hw05@dahlgrapevine.org.</p>
+
+</body>
+</html>

@@ -1,0 +1,4 @@
+The package was downloaded from http://javatechniques.com/blog/faster-deep-copies-of-java-objects/
+The package belongs to Philip Isenhour (comments@javatechniques.com)
+The license is not clear.
+

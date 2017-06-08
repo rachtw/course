@@ -1,0 +1,10 @@
+[mufen@s0:~/hw08]% ruby random-normals.rb
+0.139310 # run time in seconds
+null device
+          1
+[mufen@s0:~/hw08]% ruby random-normals2.rb
+0.008491 # run time in seconds
+null device
+          1
+Press <enter> to exit.
+
